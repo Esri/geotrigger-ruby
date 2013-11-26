@@ -8,7 +8,6 @@ module Geotrigger
     attr_accessor :code, :headers, :message, :params
   end
 end
-GT = Geotrigger
 
 lib = File.expand_path '../..', __FILE__
 $:.push lib unless $:.include? lib
