@@ -29,6 +29,9 @@ module Geotrigger
         end
       end
 
+      # http the specified method to the specified path with the given params.
+      # json parse the response body or raise errors.
+      #
       def hc meth, path, params
         r = @hc.__send__ meth, AGO_BASE_URL % path, params.merge(f: 'json')
         raise AGOError.new r.body unless r.status == 200
