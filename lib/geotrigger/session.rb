@@ -19,15 +19,15 @@ module Geotrigger
       @access_token || @ago.access_token
     end
 
-    def headers
+    def headers others = {}
       {
         'Content-Type' => 'application/json',
         'Authorization' => "Bearer #{access_token}"
-      }
+      }.merge others
     end
 
-    def post path, params = {}
-      r = @hc.post BASE_URL % path, params.to_json, headers
+    def post path, params = {}, other_headers = {}
+      r = @hc.post BASE_URL % path, params.to_json, headers(other_headers)
       raise GeotriggerError.new r.body unless r.status == 200
       h = JSON.parse r.body
       raise_error h['error'] if h['error']
