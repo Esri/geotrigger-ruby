@@ -24,12 +24,13 @@ describe Geotrigger::Trigger do
   end
 
   let :trigger do
-    GT::Trigger.create session, opts
+    Geotrigger::Trigger.create session, opts
   end
 
   it 'should create a trigger' do
     t = trigger
     t.trigger_id.should_not be nil
+    t.condition['geo'].delete 'geojson'
     t.condition.should eq opts['condition']
     t.action.should eq opts['action']
   end
@@ -38,7 +39,7 @@ describe Geotrigger::Trigger do
     ts = trigger.tags
     ts.should_not be nil
     ts.should be_a Array
-    ts.first.should be_a GT::Tag
+    ts.first.should be_a Geotrigger::Tag
     ts.first.name.should eq trigger.default_tag
   end
 

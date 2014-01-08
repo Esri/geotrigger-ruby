@@ -105,4 +105,23 @@ describe Geotrigger::Session do
     ->{ s.post 'application/permissions' }.should raise_error
   end
 
+  describe 'post' do
+
+    let :session do
+      s = Geotrigger::Session.new client_id: CONF[:client_id],
+                                  client_secret: CONF[:client_secret]
+    end
+
+    it 'posts to the API' do
+      ->{ session.post 'application/permissions' }.should_not raise_error
+    end
+
+    it 'accepts other headers' do
+      ->{
+        session.post 'application/permissions', {}, {other_header: 'other value'}
+      }.should_not raise_error
+    end
+
+  end
+
 end

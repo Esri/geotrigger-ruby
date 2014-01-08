@@ -6,3 +6,4 @@ CONF = YAML.load_file File.expand_path '../config.yml', __FILE__
 
 require 'timecop'
 require 'geotrigger'
+require 'pry'

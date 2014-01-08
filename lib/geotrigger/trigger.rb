@@ -3,6 +3,8 @@ module Geotrigger
   class Trigger < Model
     include Taggable
 
+    CIRCLE_KEYS = %w[latitude longitude distance]
+
     def self.create session, opts
       t = Trigger.new session: session
       t.data = opts
@@ -31,6 +33,11 @@ module Geotrigger
       post_data['triggerIds'] = post_data.delete 'triggerId'
       post_data.delete 'tags'
 
+      if circle?
+        post_data['condition']['geo'].delete 'geojson'
+        post_data['condition']['geo'].delete 'esrijson'
+      end
+
       grok_self_from post 'trigger/update', post_data.merge(opts)
       self
     end
@@ -38,6 +45,10 @@ module Geotrigger
 
     def grok_self_from data, id = nil
       @data = data['triggers'].select {|t| t['triggerId'] == (id || @data['triggerId'])}.first
+    end
+
+    def circle?
+      not CIRCLE_KEYS.map {|k| @data['condition']['geo'].keys.include? k}.select {|e| e}.empty?
     end
 
   end

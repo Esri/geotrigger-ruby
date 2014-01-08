@@ -3,14 +3,14 @@ require_relative '../helper'
 describe Geotrigger::Device do
 
   let :dev do
-    s = GT::AGO::Session.new client_id: CONF[:client_id],
+    s = Geotrigger::AGO::Session.new client_id: CONF[:client_id],
                                      type: :device
 
-    # can't use this because GT doesn't know it yet
+    # can't use this because Geotrigger doesn't know it yet
     #
     ago_did = s.device_data['deviceId']
 
-    # make a call to GT so it learns of new device
+    # make a call to Geotrigger so it learns of new device
     #
     at = s.access_token
     r = HTTPClient.new.get Geotrigger::Session::BASE_URL % 'device/list',
@@ -23,7 +23,7 @@ describe Geotrigger::Device do
     #
     ago_did.should eq gt_did
 
-    GT::Device.new client_id: CONF[:client_id],
+    Geotrigger::Device.new client_id: CONF[:client_id],
                    client_secret: CONF[:client_secret],
                    device_id: ago_did
   end
@@ -32,7 +32,7 @@ describe Geotrigger::Device do
     ts = dev.tags
     ts.should_not be nil
     ts.should be_a Array
-    ts.first.should be_a GT::Tag
+    ts.first.should be_a Geotrigger::Tag
     ts.first.name.should eq dev.default_tag
   end
 
