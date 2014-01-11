@@ -8,9 +8,25 @@ module Geotrigger
                (ENV['GT_BASE_URL'] + '%s') :
                'https://geotrigger.arcgis.com/%s').freeze
 
+    USER_CONFIG = File.join ENV['HOME'], '.geotrigger'
+
     attr_writer :access_token
 
     def initialize opts = {}
+      if opts[:config] or opts.empty?
+        if File.exist? USER_CONFIG
+          require 'yaml'
+          _opts = YAML.load_file USER_CONFIG
+          _opts = _opts[opts[:config]] if opts[:config]
+          while _opts[:client_id].nil? do
+            _opts_keys ||= _opts.keys
+            k = _opts_keys.shift
+            raise if k.nil?
+            _opts = _opts[k]
+          end
+          opts = _opts
+        end
+      end
       @ago = AGO::Session.new opts
       @hc = HTTPClient.new
     end
