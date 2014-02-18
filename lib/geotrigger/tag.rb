@@ -5,6 +5,7 @@ module Geotrigger
     def self.create session, opts
       t = ::Geotrigger::Tag.new session: session
       t.data = opts
+      t.data[:tags] = t.data.delete :name if t.data[:name]
       t.post_create
     end
 
@@ -25,7 +26,7 @@ module Geotrigger
 
     def post_create
       post_data = @data.dup
-      grok_self_from post('tag/permissions', post_data), @data[:tags]
+      grok_self_from post('tag/permissions/update', post_data), @data[:tags]
       self
     end
 
@@ -33,7 +34,7 @@ module Geotrigger
       raise StateError.new 'device access_token prohibited' if @session.device?
       post_data = @data.dup
       post_data['tags'] = post_data.delete 'name'
-      grok_self_from post 'tag/permissions', post_data
+      grok_self_from post 'tag/permissions/update', post_data
       self
     end
     alias_method :save, :post_update
