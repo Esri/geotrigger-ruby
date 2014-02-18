@@ -101,7 +101,7 @@ describe Geotrigger::Session do
   end
 
   it 'raises errors correctly' do
-    s = Geotrigger::Session.new
+    s = Geotrigger::Session.new client_id: 'foo', client_secret: 'bar'
     ->{ s.post 'application/permissions' }.should raise_error
   end
 
