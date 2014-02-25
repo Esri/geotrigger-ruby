@@ -38,7 +38,9 @@ module Geotrigger
     def headers others = {}
       {
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{access_token}"
+        'Authorization' => "Bearer #{access_token}",
+        'X-GT-Client-Name' => 'geotrigger-ruby',
+        'X-GT-Client-Version' => Geotrigger::VERSION
       }.merge others
     end
 
