@@ -1,10 +1,11 @@
+# basic string extensions
+#
+# these are pretty much ripped from:
+#
+# https://github.com/rails/rails/blob/master/activesupport/lib/active_support/inflector/methods.rb
+
 class String
 
-  alias_method :blank?, :empty?
-
-  # these are pretty much ripped from:
-  # https://github.com/rails/rails/blob/master/activesupport/lib/active_support/inflector/methods.rb
-  #
   def camelcase
     string = self.sub(/^(?:(?=\b|[A-Z_])|\w)/) { $&.downcase }
     string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }

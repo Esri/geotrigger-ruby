@@ -1,12 +1,30 @@
+# Geotrigger - A small Ruby client for the Esri Geotrigger Service.
+# Copyright 2014 Esri; Nakamura, Kenichi (knakamura@esri.com)
+#
+# https://developers.arcgis.com/geotrigger-service/
+# http://www.esri.com/
+#
+# [author] Kenichi Nakamura (knakamura@esri.com)
+# [license] http://www.apache.org/licenses/LICENSE-2.0.txt
+
 require 'forwardable'
-require 'httpclient'; class HTTPClient; def inspect; to_s; end; end
+require 'httpclient'
 require 'json'
 
+# The Geotrigger module is the main namespace for all things in this library.
+#
 module Geotrigger
+
+  # raised by AGOSession on error from ArcGIS Online API
+  #
   class AGOError < StandardError; end
+
+  # raised by Session on error from Geotrigger API
+  #
   class GeotriggerError < StandardError
     attr_accessor :code, :headers, :message, :params
   end
+
 end
 
 lib = File.expand_path '../..', __FILE__

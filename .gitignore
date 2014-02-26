@@ -1,3 +1,4 @@
 Gemfile.lock
 config.yml
 geotrigger-0.0.1.gem
+doc/*
