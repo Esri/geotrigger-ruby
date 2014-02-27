@@ -137,7 +137,7 @@ module Geotrigger
       ge.code = error['code']
       ge.headers = error['headers']
       ge.message = error['message']
-      ge.params = error['params']
+      ge.parameters = error['parameters']
       jj error
       raise ge
     end

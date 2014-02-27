@@ -11,6 +11,15 @@ require 'forwardable'
 require 'httpclient'
 require 'json'
 
+# HTTPClient's normal #inspect is quite large, ungainly in irb sessions
+#
+if $0 == 'irb'
+  class HTTPClient
+    alias_method :real_inspect, :inspect
+    def inspect; self.to_s; end
+  end
+end
+
 # The Geotrigger module is the main namespace for all things in this library.
 #
 module Geotrigger
@@ -22,7 +31,7 @@ module Geotrigger
   # raised by Session on error from Geotrigger API
   #
   class GeotriggerError < StandardError
-    attr_accessor :code, :headers, :message, :params
+    attr_accessor :code, :headers, :message, :parameters
   end
 
 end
@@ -39,3 +48,5 @@ require 'geotrigger/application'
 require 'geotrigger/device'
 require 'geotrigger/tag'
 require 'geotrigger/trigger'
+
+require 'geotrigger/version'
