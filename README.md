@@ -171,3 +171,5 @@ tag.device_tagging = false
 tag.trigger_list = false
 tag.save
 ```
+
+[](Esri Language: Ruby)
