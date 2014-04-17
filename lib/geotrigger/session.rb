@@ -53,7 +53,7 @@ module Geotrigger
   #
   class Session
     extend Forwardable
-    def_delegator :@ago, :type
+    def_delegators :@ago, :device_data, :refresh_token, :type
 
     # Read the base URL for Geotrigger API from the environment, or use the
     # default.
