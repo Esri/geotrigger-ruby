@@ -51,6 +51,7 @@ module Geotrigger
                 else
                   raise ArgumentError 'unknown type'
                 end
+        self.access_token = opts[:access_token] if opts[:access_token]
       end
 
       # Type of implementation as a symbol.
@@ -99,10 +100,24 @@ module Geotrigger
 
       end
 
+      # Mixin for setting a given +access_token+.
+      #
+      module AccessToken
+
+        # Set a given +access_token+ for this session.
+        #
+        def access_token= at
+          @ago_data ||= {}
+          @ago_data['access_token'] = at
+        end
+
+      end
+
       # AGO::Session implementation for Applications
       #
       class Application
         include ExpirySet
+        include AccessToken
         extend ::Forwardable
         def_delegator :@session, :hc
 
@@ -143,6 +158,7 @@ module Geotrigger
       #
       class Device
         include ExpirySet
+        include AccessToken
         extend Forwardable
         def_delegator :@session, :hc
 
